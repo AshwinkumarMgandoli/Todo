@@ -1,58 +1,67 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const Timer = () => {
-  const [seconds, setSeconds] = useState(1500); // 25 minutes in seconds
+  const [minutes, setMinutes] = useState(25);
+  const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [isFinished, setIsFinished] = useState(false); // State to track timer completion
 
   useEffect(() => {
-    let interval = null;
-    if (isActive && seconds > 0) {
+    let interval;
+    if (isActive) {
       interval = setInterval(() => {
-        setSeconds((prev) => prev - 1);
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        } else if (minutes > 0) {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        } else {
+          clearInterval(interval);
+          setIsActive(false);
+          alert("Pomodoro Completed!");
+        }
       }, 1000);
-    } else if (seconds === 0) {
-      setIsFinished(true); // Set isFinished to true when time is up
     } else {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds]);
+  }, [isActive, seconds, minutes]);
 
-  const formatTime = () => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  const startTimer = () => {
+    setIsActive(true);
+  };
+
+  const stopTimer = () => {
+    setIsActive(false);
   };
 
   const resetTimer = () => {
-    setSeconds(1500);
+    setMinutes(25);
+    setSeconds(0);
     setIsActive(false);
-    setIsFinished(false); // Reset finished state
   };
 
   return (
-    <div className="mt-4 text-center">
-      <h2 className="text-lg font-semibold">Pomodoro Timer</h2>
-      <div
-        className={`text-3xl font-bold my-2 ${
-          isFinished ? "animate-pulse text-red-500" : ""
-        }`}
-      >
-        {formatTime()}
+    <div className="mt-6 text-center">
+      <h2 className="text-xl font-semibold text-blue-500">Pomodoro Timer</h2>
+      <div className="text-6xl font-bold mt-4">
+        {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
       </div>
-      <div className="flex justify-center gap-4">
-        {/* Start / Pause Button */}
+      <div className="mt-4 space-x-4">
         <button
-          onClick={() => setIsActive(!isActive)}
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all"
+          onClick={startTimer}
+          className="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 transition-all"
         >
-          {isActive ? "Pause" : "Start"}
+          Start
         </button>
-        {/* Reset Button */}
+        <button
+          onClick={stopTimer}
+          className="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition-all"
+        >
+          Stop
+        </button>
         <button
           onClick={resetTimer}
-          className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-all"
+          className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all"
         >
           Reset
         </button>

@@ -53,7 +53,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-poppins">
       <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-blue-500 mb-4 text-center animate-fade-in">
+        <h1 className="text-3xl font-bold text-blue-500 mb-4 text-center">
           🚀 Awesome To-Do App
         </h1>
         <TaskInput addTask={addTask} />
@@ -64,7 +64,7 @@ function App() {
         />
         <button
           onClick={clearAllTasks}
-          className="w-full mt-4 bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-all transform hover:scale-105"
+          className="w-full mt-4 bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-all"
         >
           Clear All Tasks
         </button>

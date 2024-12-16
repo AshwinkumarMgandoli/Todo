@@ -1,7 +1,7 @@
 import React from "react";
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks, deleteTask, toggleTaskCompletion }) => {
+const TaskList = ({ tasks, deleteTask, toggleCompletion }) => {
   return (
     <ul className="space-y-2">
       {tasks.map((task) => (
@@ -9,8 +9,7 @@ const TaskList = ({ tasks, deleteTask, toggleTaskCompletion }) => {
           key={task.id}
           task={task}
           deleteTask={deleteTask}
-          toggleCompletion={toggleTaskCompletion}
-          className="animate-slide-in" // Adding slide-in animation to each task
+          toggleCompletion={toggleCompletion}
         />
       ))}
     </ul>
